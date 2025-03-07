@@ -1,6 +1,6 @@
 //basic keypad functions
 
-//read input
+#include <"lcd.c">
 
 char kp_getSymbol(int row, int column) { 
 
@@ -96,4 +96,53 @@ char kp_scanForInput() {
 	}
 
 	return NULL; //if nothing is found
+}
+
+int kp_getBatchSize(char message[]) { 
+
+	//will be inside main 
+	//it's purpose is to return the value we are asking for in "message"
+    
+    //scans for keypad input until 'E' or "enter" is pressed
+    //if button pressed is not enter, tracks the character user touched
+    //outputs this character on the LCD screen for user convenience
+    //numerical total is kept track via 
+    //characters can be deleted, and changes are t
+    //tracks the total by converting
+
+	lcd_clear(); 						//clear after booting
+	lcd_print(message, 1, 1);			//prompt user to input
+	lcd_setDD(0x40);					//place cursor on second row
+
+	int position = 1;	//for cursor position in LCD row
+	char input = NULL;	//stores user input
+	int total = 0;		//stores total value
+	
+
+	do {
+		input = kp_scanForInput(); 				//check for button input
+												//returns null if no buttons pressed
+												
+		if (input == null) { 					//if no valid buttons pressed
+			continue;							//do nothing and rescan		
+		}
+
+		total = convertToNum(total, input);		//returns total after appending/deleting new input
+		
+		
+		if (input == 'D' && position > 1) { 	//if we are deleting,
+			position = position - 1; 			//go to previous character
+            lcd_setDD(0x40 + position);         //place cursor over character to delete
+            lcd_printChar(' ');                 //print empty character (delete character)
+            lcd_setDD(0x40 + position);         //move cursor back over empty space
+			
+		} else if (input != 'E') {              //if not deleted and not entering,
+            lcd_printChar(input);               //print numerical character
+        }
+
+		_delay_ms(500); //small delay so one button press isn't read twice
+
+	} while (input != 'E');
+	
+	return total; //return entered amount to main
 }
