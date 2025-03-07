@@ -23,6 +23,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>loleris.txt</itemPath>
       <itemPath>loelis.c</itemPath>
+      <itemPath>keypad.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
