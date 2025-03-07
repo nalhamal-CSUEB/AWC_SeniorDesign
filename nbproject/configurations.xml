@@ -24,6 +24,7 @@
       <itemPath>loleris.txt</itemPath>
       <itemPath>loelis.c</itemPath>
       <itemPath>keypad.c</itemPath>
+      <itemPath>keypad+LCD_code.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
