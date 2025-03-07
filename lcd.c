@@ -6,7 +6,7 @@
 //Flicking the enable bit will send this instruction into the HD44780U
 
 // PROBLOMATIC FUCTION; many arguments
-void lcd_SetSignals(int rs, int rw, int d7a, int d6a, int d5a, 
+void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a, 
 				int d4a, int d7b, int d6b, int d5b, d4b) {
 	//Implemented for 4-bit communication
 	//This means that DB3:DB0 are not used when sending instructions to LCD
@@ -35,7 +35,7 @@ void lcd_SetSignals(int rs, int rw, int d7a, int d6a, int d5a,
 
 //Our primary interest is to print strings and characters onto the LCD:
 
-void lcd_print(char[] message, int row, int column);
+void lcd_print(char message[], int row, int column);
 void lcd_printChar(char character);
 
 //But preliminary and auxiliary functions are necessary:
@@ -83,13 +83,13 @@ void lcd_clear() {
 }
 
 void lcd_setDD(int address) {
-	int d6a = (index >> 6) & 0b1;
-	int d5a = (index >> 5) & 0b1;
-	int d4a = (index >> 4) & 0b1;
-	int d7b = (index >> 3) % 0b1;
-	int d6b = (index >> 2) % 0b1;
-	int d5b = (index >> 1) % 0b1;
-	int d4b = (index >> 0) % 0b1;
+	int d6a = (address >> 6) & 0b1;
+	int d5a = (address >> 5) & 0b1;
+	int d4a = (address >> 4) & 0b1;
+	int d7b = (address >> 3) % 0b1;
+	int d6b = (address >> 2) % 0b1;
+	int d5b = (address >> 1) % 0b1;
+	int d4b = (address >> 0) % 0b1;
 	lcd_setSignals(0, 0, 1, d6a, d5a, d4a, d7b, d6b, d5b, d4b);
 
 	return;
@@ -121,17 +121,17 @@ void lcd_printChar(char character) {
 	return;
 }
 
-void lcd_print(char[] string, int row, int column) {
+void lcd_print(char string[], int row, int column) {
 	//We can assume that the user knows that writing over the lines can be scrolled over to
 	//Write to AC: {0, 0, 1, ADD, ADD, ADD, ADD, ADD, ADD, ADD}
 	
 	int address = ((row - 1) * 0x40) + column; //first term will be 0 if row is 1, so we start at 0x00 before adding columns
-	address = index - 1; //AC increments after writing this instruction
+	address = address - 1; //AC increments after writing this instruction
 	
 	lcd_setDD(address);
 	
 	for (int i = 0; i < string.length(); i++) {
-		lcd_PrintChar(string[i]);
+		lcd_printChar(string[i]);
 	}
 	
 	return;
