@@ -1,6 +1,41 @@
 //basic keypad functions
 
 #include "lcd.c"
+#include "xc.h"
+
+//#define B8 Lat
+
+
+//to access individual bits:
+int latBbits[] = {LATBbits.LATB0, 	LATBbits.LATB1,
+			LATBbits.LATB2, LATBbits.LATB3,
+			LATBbits.LATB4, LATBbits.LATB5,
+			LATBbits.LATB6, LATBbits.LATB7,
+			LATBbits.LATB8, LATBbits.LATB9,
+			LATBbits.LATB10, LATBbits.LATB11,
+			LATBbits.LATB12, LATBbits.LATB13,
+			LATBbits.LATB14, LATBbits.LATB15};
+
+int TRISBbits[] = {TRISBbits.TRISB0, TRISBbits.TRISB1,
+			TRISBbits.TRISB2, TRISBbits.TRISB3,
+			TRISBbits.TRISB4, TRISBbits.TRISB5
+			TRISBbits.TRISB6, TRISBbits.TRISB7,
+			TRISBbits.TRISB8, TRISBbits.TRISB9,
+			TRISBbits.TRISB10, TRISBbits.TRISB11,
+			TRISBbits.TRISB12, TRISBbits.TRISB13,
+			TRISBbits.TRISB14, TRISBbits.TRISB15};
+
+unsigned int readBbits[] = {PORTBbits.RB0, PORTBbits.RB1,
+			PORTBbits.RB2, 	PORTBbits.RB3,
+			PORTBbits.RB4, 	PORTBbits.RB5
+			PORTBbits.RB6,	PORTBbits.RB7,
+			PORTBbits.RB8, PORTBbits.RB9,
+			PORTBbits.RB10, PORTBbits.RB11,
+			PORTBbits.RB12, PORTBbits.RB13,
+			PORTBbits.RB14, PORTBbits.RB15};
+
+//to access all pins in a port:
+//LATBSET = 0xhhhh;
 
 char kp_getSymbol(int row, int column) { 
 

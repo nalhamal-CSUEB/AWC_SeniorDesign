@@ -1,13 +1,24 @@
 //Custom LCD functions for CMPE492 - Spring 2025
 //Derived from HD44780U datasheet
 
+//#define B0 LatBbits.LatB0  use this way of renaming variables instead
+
+#define RS LATDbits.LATD1
+#define RW LATDbits.LATD2
+#define E LATDbits.LATD3
+#define DB4 LATDbits.LATD4
+#define DB5 LATDbits.LATD5
+#define DB6 LATDbits.LATD6
+#define DB7 LATDbits.LATD7
+
+
 //LCD has 10 pins: {RS, R/W, DB7, DB6, DB5, DB4, DB3, DB2, DB1, DB0}, and an enable bit
 //Performing functions on the LCD requires a specific setup from the signals above
 //Flicking the enable bit will send this instruction into the HD44780U
 
 // PROBLOMATIC FUCTION; many arguments
 void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a, 
-				int d4a, int d7b, int d6b, int d5b, d4b) {
+				int d4a, int d7b, int d6b, int d5b, int d4b) {
 	//Implemented for 4-bit communication
 	//This means that DB3:DB0 are not used when sending instructions to LCD
 	//So we cannot write the whole byte DB7:DB0 in one go
@@ -130,7 +141,7 @@ void lcd_print(char string[], int row, int column) {
 	
 	lcd_setDD(address);
 	
-	for (int i = 0; i < string.length(); i++) {
+	for (int i = 0; i < sizeof(string); i++) {
 		lcd_printChar(string[i]);
 	}
 	
