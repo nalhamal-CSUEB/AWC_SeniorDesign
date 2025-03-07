@@ -21,14 +21,14 @@ void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a,
 	DB5 = d5a; 
 	DB4 = d4a;
 	E = 1;
-	_delay_us(1); //pause for information to fully transfer
+	__delay_us(1); //pause for information to fully transfer
 	E = 0;
 	DB7 = d7b;
 	DB6 = d6b;
 	DB5 = d5b; 
 	DB4 = d4b;
 	E = 1;
-	_delay_us(50); //pause for instruction to run
+	__delay_us(50); //pause for instruction to run
 	E = 0;
 	return;
 }

@@ -1,6 +1,6 @@
 //basic keypad functions
 
-#include <"lcd.c">
+#include "lcd.c"
 
 char kp_getSymbol(int row, int column) { 
 
@@ -18,14 +18,14 @@ char kp_getSymbol(int row, int column) {
 				case 0:	return '1';
 				case 1: return '2';
 				case 2: return '3';
-				case 3: return NULL; //do nothing
+				case 3: return __NULL; //do nothing
 			}
 		case 1:
 			switch (column) {
 				case 0:	return '4';
 				case 1: return '5';
 				case 2: return '6';
-				case 3: return NULL; //do nothing
+				case 3: return __NULL; //do nothing
 			}
 		case 2:
 			switch (column) {
@@ -36,9 +36,9 @@ char kp_getSymbol(int row, int column) {
 			}
 		case 3:
 			switch (column) {
-				case 0:	return NULL; //do nothing
+				case 0:	return __NULL; //do nothing
 				case 1: return '0';
-				case 2: return NULL; //do nothing
+				case 2: return __NULL; //do nothing
 				case 3: return 'E'; //enter
 			}
 	}	
@@ -95,7 +95,7 @@ char kp_scanForInput() {
 		latBbits[i + 8] = 0; 				//turn on current output port and check next
 	}
 
-	return NULL; //if nothing is found
+	return __NULL; //if nothing is found
 }
 
 int kp_getBatchSize(char message[]) { 
@@ -115,7 +115,7 @@ int kp_getBatchSize(char message[]) {
 	lcd_setDD(0x40);					//place cursor on second row
 
 	int position = 1;	//for cursor position in LCD row
-	char input = NULL;	//stores user input
+	char input = __NULL;	//stores user input
 	int total = 0;		//stores total value
 	
 
@@ -123,7 +123,7 @@ int kp_getBatchSize(char message[]) {
 		input = kp_scanForInput(); 				//check for button input
 												//returns null if no buttons pressed
 												
-		if (input == null) { 					//if no valid buttons pressed
+		if (input == __NULL) { 					//if no valid buttons pressed
 			continue;							//do nothing and rescan		
 		}
 
@@ -140,7 +140,7 @@ int kp_getBatchSize(char message[]) {
             lcd_printChar(input);               //print numerical character
         }
 
-		_delay_ms(500); //small delay so one button press isn't read twice
+		__delay_ms(500); //small delay so one button press isn't read twice
 
 	} while (input != 'E');
 	
