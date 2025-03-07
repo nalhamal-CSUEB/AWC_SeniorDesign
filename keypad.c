@@ -72,3 +72,28 @@ int kp_modifyTotal(int total, char input) {
 		default: return total;							//do nothing in case of null or enter
 	}
 }
+
+char kp_scanForInput() {
+    
+    //loop across every keypad input port to test for connection
+    //connection established when button is pressed
+    //row and column of button press is determined as we loop
+    //the corresponding character is returned from getSymbol()
+    
+	for (int i = 8; i < 12; i++) { 				//loop across output ports
+
+		latBbits[i] = 1; 					//turn each output port on one by one and test for connection
+											//keypad drive pins start at RB8
+											
+		for (int j = 12; j < 16; j++) { 		//loop across receiving pins
+
+			if (readBbits[j] == 1) { 		//keypad-in bits start at RB12
+											//if connection is found 
+				return getSymbol(i, j); 	//find corresponding symbol for button input
+			}	
+		}
+		latBbits[i + 8] = 0; 				//turn on current output port and check next
+	}
+
+	return NULL; //if nothing is found
+}
