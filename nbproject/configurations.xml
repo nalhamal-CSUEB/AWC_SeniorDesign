@@ -23,9 +23,13 @@
       <itemPath>main.c</itemPath>
       <itemPath>loleris.txt</itemPath>
       <itemPath>loelis.c</itemPath>
+<<<<<<< HEAD
       <itemPath>keypad.c</itemPath>
       <itemPath>keypad+LCD_code.c</itemPath>
       <itemPath>lcd.c</itemPath>
+=======
+      <itemPath>testSensor.c</itemPath>
+>>>>>>> 88e11d55cae4834a9e2f3a6f42b07a73d4f88a8a
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -38,7 +42,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.45</languageToolchainVersion>
+        <languageToolchainVersion>4.50</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>

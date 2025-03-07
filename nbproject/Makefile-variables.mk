@@ -6,5 +6,5 @@
 CND_BASEDIR=`pwd`
 # default configuration
 CND_ARTIFACT_DIR_default=dist/default/production
-CND_ARTIFACT_NAME_default=SNR_DSGN_AWC.production.hex
-CND_ARTIFACT_PATH_default=dist/default/production/SNR_DSGN_AWC.production.hex
+CND_ARTIFACT_NAME_default=seniorDesignAWC.production.hex
+CND_ARTIFACT_PATH_default=dist/default/production/seniorDesignAWC.production.hex
