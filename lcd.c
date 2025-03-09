@@ -1,15 +1,8 @@
 //Custom LCD functions for CMPE492 - Spring 2025
 //Derived from HD44780U datasheet
 
-//#define B0 LatBbits.LatB0  use this way of renaming variables instead
-
-#define RS LATDbits.LATD1
-#define RW LATDbits.LATD2
-#define E LATDbits.LATD3
-#define DB4 LATDbits.LATD4
-#define DB5 LATDbits.LATD5
-#define DB6 LATDbits.LATD6
-#define DB7 LATDbits.LATD7
+#include <xc.h>
+#include "lcd.h"
 
 
 //LCD has 10 pins: {RS, R/W, DB7, DB6, DB5, DB4, DB3, DB2, DB1, DB0}, and an enable bit
@@ -25,6 +18,7 @@ void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a,
 	//Instead, DB7:DB4 will send the upper four bits, and then the bottom four bits.
 	//This means the enable bit needs to be flipped twice for each section of the byte
 	//RS and RW remain constant through both iterations
+  
 	RS = rs;
 	RW = rw;
 	DB7 = d7a;
@@ -32,21 +26,22 @@ void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a,
 	DB5 = d5a; 
 	DB4 = d4a;
 	E = 1;
-	__delay_us(1); //pause for information to fully transfer
+	//__delay_us(1); //pause for information to fully transfer
 	E = 0;
 	DB7 = d7b;
 	DB6 = d6b;
 	DB5 = d5b; 
 	DB4 = d4b;
 	E = 1;
-	__delay_us(50); //pause for instruction to run
+	//__delay_us(50); //pause for instruction to run
 	E = 0;
 	return;
 }
 
+/*
 //Our primary interest is to print strings and characters onto the LCD:
 
-void lcd_print(char message[], int row, int column);
+void lcd_print(char message[], int size, int row, int column);
 void lcd_printChar(char character);
 
 //But preliminary and auxiliary functions are necessary:
@@ -58,7 +53,7 @@ int lcd_busy();
 void lcd_clear();
 void lcd_setDD(int address);
 
-
+*/
 
 void lcd_init() {
 	//function set: {0, 0, 0, 0, 1, DL, N, F, *, *}; * = don't care
@@ -83,9 +78,10 @@ void lcd_shiftCursor(int RL) {
 }
 
 int lcd_busy() {
-	lcd_setSignals(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+	/*lcd_setSignals(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 	trisBbits[7] = input; //set BF pin to input before reading
-	return (readBbits[7]); //not sure this is allowed
+	return (readBbits[7]);*/ //not sure this is allowed
+    return 0;
 }
 
 void lcd_clear() {
@@ -132,16 +128,16 @@ void lcd_printChar(char character) {
 	return;
 }
 
-void lcd_print(char string[], int row, int column) {
+void lcd_print(char string[], int size, int row, int column) {
 	//We can assume that the user knows that writing over the lines can be scrolled over to
 	//Write to AC: {0, 0, 1, ADD, ADD, ADD, ADD, ADD, ADD, ADD}
 	
-	int address = ((row - 1) * 0x40) + column; //first term will be 0 if row is 1, so we start at 0x00 before adding columns
+	int address = (row * 0x40) + column; //first term will be 0 if row is 1, so we start at 0x00 before adding columns
 	address = address - 1; //AC increments after writing this instruction
 	
 	lcd_setDD(address);
 	
-	for (int i = 0; i < sizeof(string); i++) {
+	for (int i = 0; i < size; i++) {
 		lcd_printChar(string[i]);
 	}
 	

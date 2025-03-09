@@ -4,20 +4,16 @@
 void setup()
 {
     TRISEbits.TRISE5 = 0; //pin 1 - debug led RE5
-    
 }
-
 
 volatile void ledBlink()
 {
-    for (int i = 0; i < 100000; i++)
+    for (int i = 0; i < 1000000; i++)
     {
         int j = 0;
         j += 1;
-        _nop();
-              
+        _nop();      
     }
-    
 }
 
 int main (void)
@@ -34,8 +30,6 @@ int main (void)
         LATEbits.LATE5 = 1;
         
         ledBlink();
-        
-        
-        
     }
+    
 }

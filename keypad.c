@@ -1,41 +1,9 @@
 //basic keypad functions
 
-#include "lcd.c"
-#include "xc.h"
+#include "lcd.h"
+#include <xc.h>
 
 //#define B8 Lat
-
-
-//to access individual bits:
-int latBbits[] = {LATBbits.LATB0, 	LATBbits.LATB1,
-			LATBbits.LATB2, LATBbits.LATB3,
-			LATBbits.LATB4, LATBbits.LATB5,
-			LATBbits.LATB6, LATBbits.LATB7,
-			LATBbits.LATB8, LATBbits.LATB9,
-			LATBbits.LATB10, LATBbits.LATB11,
-			LATBbits.LATB12, LATBbits.LATB13,
-			LATBbits.LATB14, LATBbits.LATB15};
-
-int TRISBbits[] = {TRISBbits.TRISB0, TRISBbits.TRISB1,
-			TRISBbits.TRISB2, TRISBbits.TRISB3,
-			TRISBbits.TRISB4, TRISBbits.TRISB5
-			TRISBbits.TRISB6, TRISBbits.TRISB7,
-			TRISBbits.TRISB8, TRISBbits.TRISB9,
-			TRISBbits.TRISB10, TRISBbits.TRISB11,
-			TRISBbits.TRISB12, TRISBbits.TRISB13,
-			TRISBbits.TRISB14, TRISBbits.TRISB15};
-
-unsigned int readBbits[] = {PORTBbits.RB0, PORTBbits.RB1,
-			PORTBbits.RB2, 	PORTBbits.RB3,
-			PORTBbits.RB4, 	PORTBbits.RB5
-			PORTBbits.RB6,	PORTBbits.RB7,
-			PORTBbits.RB8, PORTBbits.RB9,
-			PORTBbits.RB10, PORTBbits.RB11,
-			PORTBbits.RB12, PORTBbits.RB13,
-			PORTBbits.RB14, PORTBbits.RB15};
-
-//to access all pins in a port:
-//LATBSET = 0xhhhh;
 
 char kp_getSymbol(int row, int column) { 
 
@@ -53,14 +21,14 @@ char kp_getSymbol(int row, int column) {
 				case 0:	return '1';
 				case 1: return '2';
 				case 2: return '3';
-				case 3: return __NULL; //do nothing
+				case 3: return 'N'; //do nothing
 			}
 		case 1:
 			switch (column) {
 				case 0:	return '4';
 				case 1: return '5';
 				case 2: return '6';
-				case 3: return __NULL; //do nothing
+				case 3: return 'N'; //do nothing
 			}
 		case 2:
 			switch (column) {
@@ -71,12 +39,13 @@ char kp_getSymbol(int row, int column) {
 			}
 		case 3:
 			switch (column) {
-				case 0:	return __NULL; //do nothing
+				case 0:	return 'N'; //do nothing
 				case 1: return '0';
-				case 2: return __NULL; //do nothing
+				case 2: return 'N'; //do nothing
 				case 3: return 'E'; //enter
 			}
 	}	
+    return 'N';
 }
 
 int kp_modifyTotal(int total, char input) {
@@ -117,7 +86,7 @@ char kp_scanForInput() {
     
 	for (int i = 8; i < 12; i++) { 				//loop across output ports
 
-		latBbits[i] = 1; 					//turn each output port on one by one and test for connection
+		/*latBbits[i] = 1; 					//turn each output port on one by one and test for connection
 											//keypad drive pins start at RB8
 											
 		for (int j = 12; j < 16; j++) { 		//loop across receiving pins
@@ -127,13 +96,13 @@ char kp_scanForInput() {
 				return getSymbol(i, j); 	//find corresponding symbol for button input
 			}	
 		}
-		latBbits[i + 8] = 0; 				//turn on current output port and check next
+		latBbits[i + 8] = 0; */				//turn on current output port and check next
 	}
 
-	return __NULL; //if nothing is found
+	return 'N'; //if nothing is found
 }
 
-int kp_getBatchSize(char message[]) { 
+int kp_getBatchSize(char message[], int size) { 
 
 	//will be inside main 
 	//it's purpose is to return the value we are asking for in "message"
@@ -146,11 +115,11 @@ int kp_getBatchSize(char message[]) {
     //tracks the total by converting
 
 	lcd_clear(); 						//clear after booting
-	lcd_print(message, 1, 1);			//prompt user to input
+	lcd_print(message, size, 1, 1);			//prompt user to input
 	lcd_setDD(0x40);					//place cursor on second row
 
 	int position = 1;	//for cursor position in LCD row
-	char input = __NULL;	//stores user input
+	char input = 'N';	//stores user input
 	int total = 0;		//stores total value
 	
 
@@ -158,11 +127,11 @@ int kp_getBatchSize(char message[]) {
 		input = kp_scanForInput(); 				//check for button input
 												//returns null if no buttons pressed
 												
-		if (input == __NULL) { 					//if no valid buttons pressed
+		if (input == 'N') { 					//if no valid buttons pressed
 			continue;							//do nothing and rescan		
 		}
 
-		total = convertToNum(total, input);		//returns total after appending/deleting new input
+		total = kp_modifyTotal(total, input);		//returns total after appending/deleting new input
 		
 		
 		if (input == 'D' && position > 1) { 	//if we are deleting,
@@ -175,7 +144,7 @@ int kp_getBatchSize(char message[]) {
             lcd_printChar(input);               //print numerical character
         }
 
-		__delay_ms(500); //small delay so one button press isn't read twice
+		//__delay_ms(500); //make our own delay function
 
 	} while (input != 'E');
 	
