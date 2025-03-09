@@ -4,14 +4,13 @@
 #include <xc.h>
 #include "lcd.h"
 
-
-//LCD has 10 pins: {RS, R/W, DB7, DB6, DB5, DB4, DB3, DB2, DB1, DB0}, and an enable bit
-//Performing functions on the LCD requires a specific setup from the signals above
-//Flicking the enable bit will send this instruction into the HD44780U
-
-// PROBLOMATIC FUCTION; many arguments
 void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a, 
 				int d4a, int d7b, int d6b, int d5b, int d4b) {
+   
+    //LCD has 10 pins: {RS, R/W, DB7, DB6, DB5, DB4, DB3, DB2, DB1, DB0}, and an enable bit
+    //Performing functions on the LCD requires a specific setup from the signals above
+    //Flicking the enable bit will send this instruction into the HD44780U
+    
 	//Implemented for 4-bit communication
 	//This means that DB3:DB0 are not used when sending instructions to LCD
 	//So we cannot write the whole byte DB7:DB0 in one go
@@ -78,14 +77,15 @@ void lcd_shiftCursor(int RL) {
 }
 
 int lcd_busy() {
-	/*lcd_setSignals(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-	trisBbits[7] = input; //set BF pin to input before reading
-	return (readBbits[7]);*/ //not sure this is allowed
-    return 0;
+	lcd_setSignals(0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+	TRISBbits.TRISB7 = 1;    //set RB7 to input before reading busy flag
+    int val = PORTBbits.RB7; //read busy flag
+    TRISBbits.TRISB7 = 0;    //B7 back to output
+	return val;
 }
 
 void lcd_clear() {
-	lcd_setSignals(0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+	lcd_setSignals(0, 0, 0, 0, 0, 0, 0, 0, 0, 1); //clear screen command
 	return;
 }
 
@@ -102,19 +102,20 @@ void lcd_setDD(int address) {
 	return;
 }
 
-//characters can be represented in binary <'1' == 00110001b>, and are explicitly in C
-//We need to print the character onto LCD by putting it's binary representation into the DDRAM
-//So the setup for the LCD to write into DDRAM {1, 0, b0, b1, b2, b3, b4, b5, b6, b7, b8}
-//Setting the DDRAM address tells the LCD to start writing into DDRAM, and not CGRAM
-//Boundaries for LCD row: top[0x00:0x27], bottom[0x40, 0x67]
-//By default, the first index prints the character immediatly to the first cell of the LCD
-
-//So:
-//Break character into binary digits
-//Set up outputs for writeToDDRAM() <1, 0, b0, b1, b2, b3, b4, b5, b6, b7, b8>
-//Set enable bit
-
 void lcd_printChar(char character) { 
+    //characters can be represented in binary <'1' == 00110001b>, and are explicitly in C
+    //We need to print the character onto LCD by putting it's binary representation into the DDRAM
+    //So the setup for the LCD to write into DDRAM {1, 0, b0, b1, b2, b3, b4, b5, b6, b7, b8}
+    //Setting the DDRAM address tells the LCD to start writing into DDRAM, and not CGRAM
+    //Boundaries for LCD row: top[0x00:0x27], bottom[0x40, 0x67]
+    //By default, the first index prints the character immediately to the first cell of the LCD
+
+    //So:
+    //Break character into binary digits
+    //Set up outputs for writeToDDRAM() <1, 0, b0, b1, b2, b3, b4, b5, b6, b7, b8>
+    //Set enable bit
+
+    
 	int d7a = (character >> 7) & 0b1; //high- order bits first
 	int d6a = (character >> 6) & 0b1;
 	int d5a = (character >> 5) & 0b1;
