@@ -25,7 +25,9 @@
       <itemPath>keypad.c</itemPath>
       <itemPath>lcd.c</itemPath>
       <itemPath>testSensor.c</itemPath>
+      <itemPath>misc.c</itemPath>
     </logicalFolder>
+    <itemPath>misc.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
