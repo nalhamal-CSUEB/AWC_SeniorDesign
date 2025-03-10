@@ -3,6 +3,7 @@
 
 #include <xc.h>
 #include "lcd.h"
+#include "misc.h"
 
 void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a, 
 				int d4a, int d7b, int d6b, int d5b, int d4b) {
@@ -25,14 +26,14 @@ void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a,
 	DB5 = d5a; 
 	DB4 = d4a;
 	E = 1;
-	//__delay_us(1); //pause for information to fully transfer
+	delay(1000000); //pause for information to fully transfer
 	E = 0;
 	DB7 = d7b;
 	DB6 = d6b;
 	DB5 = d5b; 
 	DB4 = d4b;
 	E = 1;
-	//__delay_us(50); //pause for instruction to run
+	delay(1000000); //pause for instruction to run
 	E = 0;
 	return;
 }

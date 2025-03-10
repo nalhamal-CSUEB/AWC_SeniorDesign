@@ -1,9 +1,12 @@
 #include <xc.h>
 #include "config.h"
-#include "definitions.h"
+
 #include "lcd.h"
 #include "keypad.h"
 #include "misc.h"
+ 
+
+#define DEBUG LATEbits.LATE5
 
 void setup()
 {
@@ -16,22 +19,8 @@ void setup()
     LATESET = 0x00;
 }
 
-void testLCD() {
-    lcd_init();
-    lcd_printChar('H');
-    lcd_printChar('i');
-    delay(1000000);
-    lcd_clear();
-    
-    lcd_print("Testing?", 8, 0, 0);
-    delay(1000000);
-    
-    lcd_setDD(0x00 + 7);
-    lcd_printChar('!');
-}
-
-int main (void)
-{
+int main (void) {
     setup();
-    testLCD();
+    LATEbits.LATE5 = 1;
+    misc_blinkDebug(40);
 }

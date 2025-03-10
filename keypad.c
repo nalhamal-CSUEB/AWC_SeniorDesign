@@ -1,18 +1,10 @@
-//basic keypad functions
-
 #include "lcd.h"
 #include <xc.h>
 
-//#define B8 Lat
-
 char kp_getSymbol(int row, int column) { 
-
-	//assuming row and column will be between 0 - 3
-	//scaling for final matrix may be different, double check!
-    
     //converts a row and column into the corresponding character on the keypad
     
-    //e.g. hitting the top left button (row 0 column 0 for example)
+    //e.g. hitting the top left button (row 0 column 0)
     //should return the character '1'
 
 	switch (row) {

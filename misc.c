@@ -1,9 +1,7 @@
-#include "xc.h";
-#include "keypad.h";
-#include "lcd.h";
+#include "xc.h"
+#include "keypad.h"
+#include "lcd.h"
 #include "misc.h"
-
-#define DEBUG LATEbits.LATE5
 
 volatile void delay(int num){
     for (int i = 0; i < num; i++)
@@ -13,7 +11,7 @@ volatile void delay(int num){
         _nop();      
     }
 }
-void debug_blink(int numTimes) {
+void misc_blinkDebug(int numTimes) {
     
     for (int i = 0; i < numTimes; i++) {
     DEBUG = 1;
@@ -23,7 +21,7 @@ void debug_blink(int numTimes) {
     }
     return;
 }
-int modifyTotal(int total, char input) {
+int misc_modifyTotal(int total, char input) {
 
     //takes parameter total and updates it depending on the inputted character
     //inputted character is scanned by keypad
@@ -51,7 +49,7 @@ int modifyTotal(int total, char input) {
 		default: return total;							//do nothing in case of 'N' or 'E'
 	}
 }
-int getBatchSize(char message[], int size) { 
+int misc_getBatchSize(char message[], int size) { 
 
 	//will be inside main 
 	//it's purpose is to return the value we are asking for in "message"
@@ -80,7 +78,7 @@ int getBatchSize(char message[], int size) {
 			continue;							//do nothing and rescan		
 		}
 
-		total = modifyTotal(total, input);		//returns total after appending/deleting new input
+		total = misc_modifyTotal(total, input);		//returns total after appending/deleting new input
 		
 		
 		if (input == 'D' && position > 1) { 	//if we are deleting,
@@ -93,7 +91,7 @@ int getBatchSize(char message[], int size) {
             lcd_printChar(input);               //print numerical character
         }
 
-		//__delay_ms(500); //make our own delay function
+		//delay_ms(500); //make our own delay function
 
 	} while (input != 'E');
 	return total; //return entered amount to main
@@ -103,7 +101,7 @@ void testKeypad() {
     do {
         input = kp_scanForInput();
         if (input != 'N' && input != 'E') {
-            debug_blink();
+            misc_blinkDebug(1);
         }
     } while (input != 'E');
     DEBUG = 1;

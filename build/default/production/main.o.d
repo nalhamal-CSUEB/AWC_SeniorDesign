@@ -1,10 +1,9 @@
-build/default/production/main.o: main.c config.h definitions.h lcd.h \
- keypad.h
+build/default/production/main.o: main.c config.h lcd.h keypad.h misc.h
 
 config.h:
-
-definitions.h:
 
 lcd.h:
 
 keypad.h:
+
+misc.h:
