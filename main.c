@@ -4,7 +4,7 @@
 #include "lcd.h"
 #include "keypad.h"
 #include "misc.h"
- 
+#include "motor.h"
 
 #define DEBUG LATEbits.LATE5
 

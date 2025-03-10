@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c keypad.c lcd.c testSensor.c misc.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c keypad.c lcd.c testSensor.c misc.c motor.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/keypad.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/testSensor.o ${OBJECTDIR}/misc.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/keypad.o.d ${OBJECTDIR}/lcd.o.d ${OBJECTDIR}/testSensor.o.d ${OBJECTDIR}/misc.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/keypad.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/testSensor.o ${OBJECTDIR}/misc.o ${OBJECTDIR}/motor.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/keypad.o.d ${OBJECTDIR}/lcd.o.d ${OBJECTDIR}/testSensor.o.d ${OBJECTDIR}/misc.o.d ${OBJECTDIR}/motor.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/keypad.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/testSensor.o ${OBJECTDIR}/misc.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/keypad.o ${OBJECTDIR}/lcd.o ${OBJECTDIR}/testSensor.o ${OBJECTDIR}/misc.o ${OBJECTDIR}/motor.o
 
 # Source Files
-SOURCEFILES=main.c keypad.c lcd.c testSensor.c misc.c
+SOURCEFILES=main.c keypad.c lcd.c testSensor.c misc.c motor.c
 
 
 
@@ -131,6 +131,12 @@ ${OBJECTDIR}/misc.o: misc.c  .generated_files/flags/default/e515509404e4e9af67bf
 	@${RM} ${OBJECTDIR}/misc.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fdata-sections -O1 -fno-common -Werror -Wall -MP -MMD -MF "${OBJECTDIR}/misc.o.d" -o ${OBJECTDIR}/misc.o misc.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
+${OBJECTDIR}/motor.o: motor.c  .generated_files/flags/default/7c05db391a40a4aac50283647e2969127f62e131 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/motor.o.d 
+	@${RM} ${OBJECTDIR}/motor.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fdata-sections -O1 -fno-common -Werror -Wall -MP -MMD -MF "${OBJECTDIR}/motor.o.d" -o ${OBJECTDIR}/motor.o motor.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
 else
 ${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/79799a001e88a0d7056f29933282e7b4b634caa .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
@@ -161,6 +167,12 @@ ${OBJECTDIR}/misc.o: misc.c  .generated_files/flags/default/2a4cdf11f32246deca9e
 	@${RM} ${OBJECTDIR}/misc.o.d 
 	@${RM} ${OBJECTDIR}/misc.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fdata-sections -O1 -fno-common -Werror -Wall -MP -MMD -MF "${OBJECTDIR}/misc.o.d" -o ${OBJECTDIR}/misc.o misc.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/motor.o: motor.c  .generated_files/flags/default/cf7f3411b9db92e162cdb06baef70dcef6f663c9 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/motor.o.d 
+	@${RM} ${OBJECTDIR}/motor.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fdata-sections -O1 -fno-common -Werror -Wall -MP -MMD -MF "${OBJECTDIR}/motor.o.d" -o ${OBJECTDIR}/motor.o motor.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 endif
 
