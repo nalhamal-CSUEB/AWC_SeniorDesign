@@ -4,10 +4,7 @@
 #include "misc.h"
 
 volatile void delay(int num){
-    for (int i = 0; i < num; i++)
-    {
-        int j = 0;
-        j += 1;
+    for (int i = 0; i < num; i++){
         _nop();      
     }
 }
