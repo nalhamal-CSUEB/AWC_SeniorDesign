@@ -73,9 +73,9 @@ int main (void) {
     
     while (1) {
         DEBUG = 1;
-        delay(300);
+        delay_us(500);
         DEBUG = 0;
-        delay(300);
+        delay_us(500);
     }
     //lcd_print("Hello Akbar!", 12, 0, 0);
     

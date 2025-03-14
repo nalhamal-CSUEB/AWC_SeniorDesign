@@ -3,11 +3,24 @@
 #include "lcd.h"
 #include "misc.h"
 
-volatile void delay(int num){
+void delay(int num){
     for (int i = 0; i < num; i++){
         _nop();      
     }
 }
+
+void delay_us(int us) {
+    for (int i = 0; i < (2 * us) - 1; i++) {
+        _nop();
+    }
+}
+
+void delay_ms(int ms) {
+    for (int i = 0; i < (2000 * ms); i++) {
+        _nop();
+    }
+}
+
 void misc_blinkDebug(int numTimes) {
     
     for (int i = 0; i < numTimes; i++) {
