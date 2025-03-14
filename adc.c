@@ -42,3 +42,36 @@ void configANPins()
     
     
 }
+
+
+void configIntoMux()
+{
+    /* 
+    
+    Essentially the ADC uses an OP-AMP to read inputs
+    Positive Terminal is for our reading in value
+    Negative Terminal is our reference for LOW or 0
+    
+    In our design we are reading from 2 sensors, tension and compression sensor
+    
+    TSENSE or Tension sensor is on AN3
+    CSENSE or Compression sensor is on AN2
+    
+    BOTH Negative Inputs for MUX A and B are VREFL - Voltage Reference LOW
+    Positive Reference for MUX A - AN2 / CSENSE
+    Positive Reference for MUX B - AN3 / TSENSE
+    
+    In Order to read from both inputs we must go into Alternating Mode which swaps between MUX A and B
+    The order is initially at A, then swaps to B, then back to A, and repeat
+     
+    */
+    
+    //First - Clear Bits
+    AD1CHSCLR = 0x8C8D0000;
+            
+    //Second - Set Bits
+    AD1CHSSET = 0x03020000;
+    
+    
+    
+}

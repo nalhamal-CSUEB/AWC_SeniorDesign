@@ -13,6 +13,7 @@ void setMuxToADCConnection();
 void setADCClockSource();
 void setSampleTime();
 void setADCClockPrescaler();
+void setAlternateMode();
 
 void setupADC();
 
