@@ -30,6 +30,7 @@
       <itemPath>testSensor.c</itemPath>
       <itemPath>misc.c</itemPath>
       <itemPath>motor.c</itemPath>
+      <itemPath>adc.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
