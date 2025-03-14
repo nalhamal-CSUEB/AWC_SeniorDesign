@@ -87,3 +87,14 @@ void setAlternateMode()
     
     
 }
+
+void setOutputFormat()
+{
+    //Here we set the output format of the buffer
+    //We use a sign extended 32 bit integer unsigned
+    //only the 10 Least Significant (Rightmost) Bits are data
+    
+    
+    AD1CON1SET = 0x00000400;
+    
+}
