@@ -62,7 +62,10 @@
 
 //test
 
-//added comment
+//Oscillator Settings:
+// PLL with internal oscillator
+// Init freq: 8 MHz
+// Final Frequency: 32 MHZ
 
 
 
