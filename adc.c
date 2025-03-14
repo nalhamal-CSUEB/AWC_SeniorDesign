@@ -75,3 +75,15 @@ void configIntoMux()
     
     
 }
+
+void setAlternateMode()
+{
+    /*    
+     In Order to read from both inputs we must go into Alternating Mode which swaps between MUX A and B
+     The order is initially at A, then swaps to B, then back to A, and repeat     
+     */
+    
+    AD1CON2SET = 0x00000001;
+    
+    
+}
