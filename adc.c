@@ -24,6 +24,9 @@ void turnOffADC();
  
  */
 
+//Note: use IFS1 to check if we are done
+//IFSx: Interrupt Flag Status register
+
 void configANPins()
 {
     //set the digital pins first
@@ -98,3 +101,4 @@ void setOutputFormat()
     AD1CON1SET = 0x00000400;
     
 }
+
