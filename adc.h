@@ -5,6 +5,22 @@ void configANPins();
 void configIntoMux();
 void setOutputFormat();
 void setSampleClockSource();
+void setVoltageRefs();
+void selectScanMode();
+void setConvPerInterrupt();
+void setBufferFillMode();
+void setMuxToADCConnection();
+void setADCClockSource();
+void setSampleTime();
+void setADCClockPrescaler();
+
+void setupADC();
+
+void turnOnADC();
+void turnOffADC();
+
+
+
 
 
 #endif
