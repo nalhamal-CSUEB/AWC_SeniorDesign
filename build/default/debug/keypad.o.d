@@ -1,3 +1,3 @@
-build/default/debug/keypad.o: keypad.c lcd.c
+build/default/debug/keypad.o: keypad.c lcd.h
 
-lcd.c:
+lcd.h:

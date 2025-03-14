@@ -6,6 +6,11 @@ char kp_getSymbol(int row, int column) {
     
     //e.g. hitting the top left button (row 0 column 0)
     //should return the character '1'
+    
+    LATBbits.LATB8 = 0; //turn off all driving pins so no mistaken inputs upon loop
+    LATBbits.LATB9 = 0;
+    LATBbits.LATB10 = 0;
+    LATBbits.LATB11 = 0;
 
 	switch (row) {
 		case 0:
@@ -50,50 +55,50 @@ char kp_scanForInput() {
     //keypad drive pins start at RB8
     //keypad-in bits start at RB12 
 	LATBbits.LATB8 = 1;                 //turn on keypad driving pin		
-    if (PORTBbits.RB12 == 0) {          //check each keypad input for connection
+    if (PORTBbits.RB12 == 1) {          //check each keypad input for connection
         return kp_getSymbol(3, 3);
-    } else if (PORTBbits.RB13 == 0) {
+    } else if (PORTBbits.RB13 == 1) {
         return kp_getSymbol(2, 3);
-    } else if (PORTBbits.RB14 == 0) {
+    } else if (PORTBbits.RB14 == 1) {
         return kp_getSymbol(1, 3);
-    } else if (PORTBbits.RB15 == 0) {
+    } else if (PORTBbits.RB15 == 1) {
         return kp_getSymbol(0, 3);
     }
     LATBbits.LATB8 = 0;                 //turn off keypad drive
     
     LATBbits.LATB9 = 1; 					
-    if (PORTBbits.RB12 == 0) {                                         
+    if (PORTBbits.RB12 == 1) {                                         
         return kp_getSymbol(3, 2);
-    } else if (PORTBbits.RB13 == 0) {
+    } else if (PORTBbits.RB13 == 1) {
         return kp_getSymbol(2, 2);
-    } else if (PORTBbits.RB14 == 0) {
+    } else if (PORTBbits.RB14 == 1) {
         return kp_getSymbol(1, 2);
-    } else if (PORTBbits.RB15 == 0) {
+    } else if (PORTBbits.RB15 == 1) {
         return kp_getSymbol(0, 2);
     }
     LATBbits.LATB9 = 0;
     
     LATBbits.LATB10 = 1; 					
-    if (PORTBbits.RB12 == 0) {                                         
+    if (PORTBbits.RB12 == 1) {                                         
         return kp_getSymbol(3, 1);
-    } else if (PORTBbits.RB13 == 0) {
+    } else if (PORTBbits.RB13 == 1) {
         return kp_getSymbol(2, 1);
-    } else if (PORTBbits.RB14 == 0) {
+    } else if (PORTBbits.RB14 == 1) {
         return kp_getSymbol(1, 1);
-    } else if (PORTBbits.RB15 == 0) {
+    } else if (PORTBbits.RB15 == 1) {
         return kp_getSymbol(0, 1);
     }
     LATBbits.LATB10 = 0;
     
     LATBbits.LATB11 = 1; 					
-    if (PORTBbits.RB12 == 0) {                                         
-        return kp_getSymbol(3, 1);
-    } else if (PORTBbits.RB13 == 0) {
-        return kp_getSymbol(2, 1);
-    } else if (PORTBbits.RB14 == 0) {
-        return kp_getSymbol(1, 1);
-    } else if (PORTBbits.RB15 == 0) {
-        return kp_getSymbol(0, 1);
+    if (PORTBbits.RB12 == 1) {                                         
+        return kp_getSymbol(3, 0);
+    } else if (PORTBbits.RB13 == 1) {
+        return kp_getSymbol(2, 0);
+    } else if (PORTBbits.RB14 == 1) {
+        return kp_getSymbol(1, 0);
+    } else if (PORTBbits.RB15 == 1) {
+        return kp_getSymbol(0, 0);
     }
     LATBbits.LATB11 = 0;
 

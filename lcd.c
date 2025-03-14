@@ -25,15 +25,12 @@ void lcd_setSignals(int rs, int rw, int d7a, int d6a, int d5a,
 	DB6 = d6a;
 	DB5 = d5a; 
 	DB4 = d4a;
+	DB3 = d7b;
+	DB2 = d6b;
+	DB1 = d5b; 
+	DB0 = d4b;
 	E = 1;
-	delay(1000000); //pause for information to fully transfer
-	E = 0;
-	DB7 = d7b;
-	DB6 = d6b;
-	DB5 = d5b; 
-	DB4 = d4b;
-	E = 1;
-	delay(1000000); //pause for instruction to run
+	delay(100000); //pause for instruction to run
 	E = 0;
 	return;
 }
@@ -60,12 +57,18 @@ void lcd_init() {
 	//DL = 0: 4 bit communication
 	//N = 1: 2 lines on LCD
 	//F = 0: 5 x 8 dot characters
-	lcd_setSignals(0, 0, 0, 0, 1, 0, 1, 0, 0, 0);
+	lcd_setSignals(0, 0, 0, 0, 1, 1, 1, 0, 0, 0);
 	
 	//entry mode set: {0, 0, 0, 0, 0, 0, 0, 1, I/D, S}
 	//I/D = 1; AC increments after each write command
 	//S = 0; display does not shift
 	lcd_setSignals(0, 0, 0, 0, 0, 0, 0, 1, 1, 0);
+    
+    //display on/off control: {0, 0, 0, 0, 0, 0, 1, D, C, B}
+    //D = 1: display is on
+    //C = 1: cursor is displayed
+    //B = 1: character blinks with cursor
+    lcd_setSignals(0, 0, 0, 0, 0, 0, 1, 1, 1, 1);
 	return;
 }
 
@@ -91,13 +94,14 @@ void lcd_clear() {
 }
 
 void lcd_setDD(int address) {
-	int d6a = (address >> 6) & 0b1;
-	int d5a = (address >> 5) & 0b1;
-	int d4a = (address >> 4) & 0b1;
-	int d7b = (address >> 3) % 0b1;
-	int d6b = (address >> 2) % 0b1;
-	int d5b = (address >> 1) % 0b1;
-	int d4b = (address >> 0) % 0b1;
+    int d4b = (address >> 0) & 0x01;
+    int d5b = (address >> 1) & 0x01;
+    int d6b = (address >> 2) & 0x01;
+    int d7b = (address >> 3) & 0x01;
+    int d4a = (address >> 4) & 0x01;
+    int d5a = (address >> 5) & 0x01;
+	int d6a = (address >> 6) & 0x01; 
+	
 	lcd_setSignals(0, 0, 1, d6a, d5a, d4a, d7b, d6b, d5b, d4b);
 
 	return;
@@ -134,10 +138,12 @@ void lcd_print(char string[], int size, int row, int column) {
 	//We can assume that the user knows that writing over the lines can be scrolled over to
 	//Write to AC: {0, 0, 1, ADD, ADD, ADD, ADD, ADD, ADD, ADD}
 	
+    
 	int address = (row * 0x40) + column; //first term will be 0 if row is 1, so we start at 0x00 before adding columns
 	address = address - 1; //AC increments after writing this instruction
 	
 	lcd_setDD(address);
+    
 	
 	for (int i = 0; i < size; i++) {
 		lcd_printChar(string[i]);

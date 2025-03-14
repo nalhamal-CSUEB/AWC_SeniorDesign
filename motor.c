@@ -4,11 +4,11 @@
 
 //stepper motor functions
 
-#define PS LATEbits.LATE0
-#define PHASE1 LATEbits.LATE1
-#define PHASE2 LATEbits.LATE2
-#define PHASE3 LATEbits.LATE3
-#define PHASE4 LATEbits.LATE4
+const float cutting_distance = 10; //distance knife will travel
+const float wheel_radius = .3;//in cm
+const float step_angle = 1.8; //in degrees
+								//from "SM_42BYG011-25"
+const float dps = step_angle * wheel_radius; //distance per step
 //etc...
 
 //we want one step and one step only (one signal is changed, not both)
@@ -17,24 +17,6 @@
 //17-32
 //33-48
 //49-64
-
-void motor_stepFeeder() { //only deals with feeding motor
-	//one "step" is one phase shift?
-	//or is one "step" the whole sequence A+ B+ A- B-?
-	if (PHASE1 == 1) {
-		if (PHASE2 == 1) {
-			PHASE1 = 0;
-		} else {
-			PHASE2 = 1;
-		}
-	} else {
-		if (PHASE2 == 1) {
-			PHASE2 = 0;
-		} else {
-			PHASE1 = 1;
-		}
-	}
-}
 
 void motor_stepCutterDown() { //only deals with feeding motor
 	//one "step" is one phase shift?
@@ -72,24 +54,29 @@ void motor_stepCutterUp() {
 
 void motor_stepFeeder(int steps) {
 	for (int i = 0; i < steps; i++) {
-		motor_stepFeeder();
+		if (PHASE1 == 1) {
+		if (PHASE2 == 1) {
+			PHASE1 = 0;
+		} else {
+			PHASE2 = 1;
+		}
+	} else {
+		if (PHASE2 == 1) {
+			PHASE2 = 0;
+		} else {
+			PHASE1 = 1;
+		}
+	}
         //delay_ms(250); //crucial delay
 						 //very exaggerated for testing purposes
 	}
 }
-
-static float wheel_radius = .3;//in cm
-static float step_angle = 1.8; //in degrees
-								//from "SM_42BYG011-25"
-static float dps = step_angle * wheel_radius; //distance per step
 
 void motor_feed(int distance) { //distance in centimeters, can only be int input
 	float dps = step_angle * wheel_radius;
 	int steps = distance / dps; //dps = distance/step;
 	motor_stepFeeder(steps);
 }
-
-static float cutting_distance = 10; //distance knife will travel
 
 void motor_cut() {
 	int numSteps = cutting_distance / dps;
